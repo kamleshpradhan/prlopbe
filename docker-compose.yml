@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  node-app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    environment:
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_HOST: db
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+  db:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345  # Set root password for MySQL
+      - MYSQL_DATABASE=test_db  
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+volumes:
+  mysql-data: {}
